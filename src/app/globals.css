@@ -5,6 +5,12 @@
   --foreground: #171717;
 }
 
+@layer utilities {
+  .grid-rows-app {
+    grid-template-rows: min-content max-content;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
