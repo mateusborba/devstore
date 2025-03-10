@@ -1,15 +1,24 @@
 import { api } from "@/data/api";
 import type { Product } from "@/data/types/products";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const response = await api("/products/featured");
+  const response = await api("/products/featured", {
+    next: {
+      revalidate: 10,
+    },
+  });
 
   const products = await response.json();
 
   return products;
 }
+
+export const metadata: Metadata = {
+  title: "Home",
+};
 
 export default async function Home() {
   const [highLightedProduct, ...otherProducts] = await getFeaturedProducts();
@@ -60,6 +69,8 @@ export default async function Home() {
               {product.price.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0,
               })}
             </span>
           </div>
