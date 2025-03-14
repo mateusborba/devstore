@@ -12,11 +12,14 @@ interface ProductProps {
 }
 
 async function getProduct(slug: string): Promise<Product> {
+  console.log(slug);
   const response = await api(`/products/${slug}`, {
     next: {
       revalidate: 60 * 60, // 1 hour
     },
   });
+
+  console.log({ response });
 
   const product = await response.json();
 
